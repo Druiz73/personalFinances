@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { TextField } from '../components/TextField';
 import { Button } from '../components/Button';
+import CheckBox from '@react-native-community/checkbox';
 import logo from '../images/logo.png';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,13 +20,13 @@ export const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [admin, setAdmin] = useState(false)
 
   const { navigate } = useNavigation();
 
   const { user, error } = useSelector(
     (state: ApplicationState) => state.userReducer
   );
-
   const { token } = user;
 
   useEffect(() => {
@@ -36,22 +37,29 @@ export const Login = () => {
   }, [user]);
 
   const onTapLogin = () => {
-    dispatch(onLogin(email, password));
+    dispatch(onLogin(email, password, admin));
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.navigation}>
-        <Image  source={logo}/>
+        <Image source={logo} />
       </View>
       <View style={styles.body}>
         <View style={styles.loginView}>
-          <TextField  placeholder="Email Id" onTextChange={setEmail} />
+          <TextField placeholder="Email Id" onTextChange={setEmail} />
           <TextField
             placeholder="Password"
             onTextChange={setPassword}
             isSecure={true}
           />
+          <View style={styles.checkContainer}>
+            <Text style={{marginVertical:5}}>Login as Admin</Text>
+            <CheckBox disabled={false}
+              value={admin}
+              style={styles.check}
+              onValueChange={() => setAdmin(!admin)} />
+          </View>
           <Button title="Login" onTap={onTapLogin} />
 
           {token !== undefined && (
@@ -69,21 +77,31 @@ export const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'white'
+    backgroundColor: 'white'
   },
   navigation: {
     flex: 2,
     alignItems: 'center',
-    marginTop:100
+    marginTop: 100
   },
   body: {
     flex: 9,
   },
+  checkContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  check:{
+    color:'#9F3EDF',
+    marginVertical:'auto',
+    textShadowColor:'#9F3EDF'
+  },
   loginView: {
-    marginTop: 150,
+    marginTop: 130,
     marginLeft: 20,
     marginRight: 20,
-    height: 400,
+    height: 350,
   },
   footer: {
     flex: 1,

@@ -8,14 +8,14 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps> = ({ title, onTap }) => {
   return (
-    <TouchableOpacity style={styles.btnLogin} onPress={() => onTap()}>
+    <TouchableOpacity style={styles.btn} onPress={() => onTap()}>
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnLogin: {
+  btn: {
     height: 60,
     backgroundColor: '#6F1CDB',
     marginLeft: 10,

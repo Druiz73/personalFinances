@@ -1,4 +1,4 @@
-#Mon Nov 09 18:21:04 ART 2020
-base.0=/home/david/Documentos/finances/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Mon Nov 09 21:10:21 ART 2020
+base.0=/home/david/Documentos/personalFinances/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
