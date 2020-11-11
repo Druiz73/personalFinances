@@ -8,7 +8,7 @@ import {
 import { TextField } from '../components/TextField';
 import { Button } from '../components/Button';
 import CheckBox from '@react-native-community/checkbox';
-import logo from '../images/logo.png';
+
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -43,7 +43,7 @@ export const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navigation}>
-        <Image source={logo} />
+        <Image source={require('../images/logo.png')} />
       </View>
       <View style={styles.body}>
         <View style={styles.loginView}>
