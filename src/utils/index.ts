@@ -1,3 +1,3 @@
-export const BASE_URL = 'https://netflix-example.herokuapp.com/user/';
+export const BASE_URL = 'http://10.0.2.2:1337';
 
 export * from './useNavigation';

@@ -1,39 +1,52 @@
-import {
-  Category,
-  CategoryActionTypes,
-  ADD_CATEGORY,
-  REMOVE_CATEGORY,
-  EDIT_CATEGORY,
-  GET_CATEGORIES,
-  ERROR_CATEGORIES
-} from "../types/category";
+import { categoryAction, categoryState } from '../actions/categoryActions'
 
-const categoryReducerDefaultState: Category[] = [];
 
-const CategoryReducer = (
-  state = categoryReducerDefaultState,
-  action: CategoryActionTypes
-): Category[] => {
+type Category= {
+  category: categoryState;
+  message: String,
+  id: null,
+  categories: null
+};
+
+const initialState = {
+  category: {} as categoryState,
+  message: '',
+  id: null,
+  categories: null
+};
+
+
+const CategoryReducer = (state: Category = initialState, action: categoryAction) => {
   switch (action.type) {
-    case ADD_CATEGORY:
-      return [...state, action.category];
-    case REMOVE_CATEGORY:
-      return state.filter(({ id }) => id !== action.id);
-    case EDIT_CATEGORY:
-      return state.map(category => {
-        if (category.id === action.category.id) {
-          return {
-            ...category,
-            ...action.category
-          };
-        } else {
-          return category;
-        }
-      });
-    case GET_CATEGORIES:
-      return action.categories;
-    case ERROR_CATEGORIES:
-      return [...state, action.message];
+    case "ADD_CATEGORY":
+      return {
+        ...state,
+        loading: true
+      };
+    case "REMOVE_CATEGORY":
+      return {
+        ...state,
+        loading: false,
+        message: action.payload
+      };
+    case "EDIT_CATEGORY":
+      return {
+        ...state,
+        loading: false,
+        category: action.payload.category,
+        message: action.payload.message
+      };
+    case "GET_CATEGORIES":
+      return {
+        ...state,
+        loading: true,
+        categories: action.payload
+      };
+    case "ERROR_CATEGORIES":
+      return {
+        ...state,
+        message: action.payload
+      };
     default:
       return state;
   }

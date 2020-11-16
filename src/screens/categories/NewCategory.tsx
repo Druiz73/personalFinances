@@ -6,20 +6,33 @@ import {
 } from 'react-native';
 import { TextField } from '../../components/TextField';
 import { Button } from '../../components/Button';
+import { useDispatch } from 'react-redux';
+import { startAddCategory } from '../../redux'
+import { Category } from './Categories';
 
 interface newCategorie {
-    nombre: string,
+    category: string,
     save: Function
 }
 
-export const NewCategory: React.FC<newCategorie> = ({ nombre, save }) => {
+
+export const NewCategory: React.FC<newCategorie> = () => {
+
+    const dispatch = useDispatch();
 
 
-    const [category, setCategory] = useState('')
+    const [CategoryState, setCategory] = useState({ category: '' })
 
-    const onTapSaveCategory= () => {
-        
-      };
+    console.log(CategoryState)
+    const onTapSaveCategory = (CategoryState: Object) => {
+        dispatch(startAddCategory(CategoryState))
+    };
+
+    const handleChange = (ev: any) => {
+        setCategory({
+            category: ev.value
+        })
+    }
 
     return (
         <View>
@@ -27,9 +40,9 @@ export const NewCategory: React.FC<newCategorie> = ({ nombre, save }) => {
                 <Text style={styles.title}>New Category</Text>
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Agregar Categoria' onTextChange={setCategory}/>
+                <TextField placeholder='Agregar Categoria' onTextChange={handleChange} />
             </View>
-            <Button title='Agregar' onTap={onTapSaveCategory}></Button>
+            <Button title='Agregar' onTap={() => onTapSaveCategory(CategoryState)}></Button>
         </View>
     )
 }
@@ -45,5 +58,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 40
     },
-    body:{}
+    body: {}
 })
