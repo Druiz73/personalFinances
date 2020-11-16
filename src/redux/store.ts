@@ -4,4 +4,6 @@ import { rootReducer } from './reducers'; // root reducer
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-export { store };
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default  store;

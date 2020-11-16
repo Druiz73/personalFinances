@@ -3,7 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  SafeAreaView
 } from 'react-native';
 import { TextField } from '../components/TextField';
 import { Button } from '../components/Button';
@@ -20,7 +21,6 @@ export const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [admin, setAdmin] = useState(false)
 
   const { navigate } = useNavigation();
 
@@ -28,7 +28,6 @@ export const Login = () => {
     (state: ApplicationState) => state.userReducer
   );
   const { token } = user;
-
   useEffect(() => {
     if (token !== undefined) {
       navigate('Home');
@@ -36,12 +35,12 @@ export const Login = () => {
     //do nothing
   }, [user]);
 
-  const onTapLogin = () => {
-    dispatch(onLogin(email, password, admin));
+  const onTapLogin = (email: string, password: string) => {
+    dispatch(onLogin(email, password));
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.navigation}>
         <Image source={require('../images/logo.png')} />
       </View>
@@ -54,13 +53,12 @@ export const Login = () => {
             isSecure={true}
           />
           <View style={styles.checkContainer}>
-            <Text style={{marginVertical:5}}>Login as Admin</Text>
+            <Text style={{ marginVertical: 5 }}>Login as Admin</Text>
             <CheckBox disabled={false}
-              value={admin}
               style={styles.check}
-              onValueChange={() => setAdmin(!admin)} />
+            />
           </View>
-          <Button title="Login" onTap={onTapLogin} />
+          <Button title="Login" onTap={() => onTapLogin(email, password)} />
 
           {token !== undefined && (
             <Text style={{ marginLeft: 20, marginRight: 20 }}>
@@ -70,7 +68,7 @@ export const Login = () => {
         </View>
       </View>
       <View style={styles.footer}></View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -82,7 +80,8 @@ const styles = StyleSheet.create({
   navigation: {
     flex: 2,
     alignItems: 'center',
-    marginTop: 100
+    marginTop: 100,
+    marginBottom: 50
   },
   body: {
     flex: 9,
@@ -92,10 +91,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  check:{
-    color:'#9F3EDF',
-    marginVertical:'auto',
-    textShadowColor:'#9F3EDF'
+  check: {
+    color: '#9F3EDF',
+    marginVertical: 'auto',
+    textShadowColor: '#9F3EDF'
   },
   loginView: {
     marginTop: 130,

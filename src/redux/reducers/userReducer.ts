@@ -15,7 +15,8 @@ const UserReducer = (state: UserState = initialState, action: UserAction) => {
     case 'ON_LOGIN':
       return {
         ...state,
-        user: action.payload,
+        user: { userName: action.payload.userName, token: action.payload.token }
+
       };
     case 'ON_ERROR':
       return {
