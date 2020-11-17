@@ -6,23 +6,31 @@ import {
   Image,
   SafeAreaView
 } from 'react-native';
+//components
 import { TextField } from '../components/TextField';
 import { Button } from '../components/Button';
 import CheckBox from '@react-native-community/checkbox';
-
-
+//redux
 import { useSelector, useDispatch } from 'react-redux';
-
 import { ApplicationState, onLogin } from '../redux';
-import { useNavigation } from '../utils';
+//navigation
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList, AppScreens } from '../useNavigation';
 
-export const Login = () => {
+type LoginScreenNavigationProps = StackNavigationProp<StackParamList, AppScreens.Login>;
+
+interface LoginScreenProps {
+  navigation: LoginScreenNavigationProps;
+}
+
+const Login: React.FunctionComponent<LoginScreenProps> = (props) => {
+  const { navigation } = props;
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { navigate } = useNavigation();
+
 
   const { user, error } = useSelector(
     (state: ApplicationState) => state.userReducer
@@ -30,7 +38,7 @@ export const Login = () => {
   const { token } = user;
   useEffect(() => {
     if (token !== undefined) {
-      navigate('Home');
+      navigation.navigate(AppScreens.Home);
     }
     //do nothing
   }, [user]);
@@ -106,3 +114,4 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 });
+export default Login;

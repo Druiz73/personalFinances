@@ -2,38 +2,43 @@ import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
-import { TextField } from '../../components/TextField';
-import { Button } from '../../components/Button';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
+//redux
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation } from '../../utils';
+//navigation
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList, AppScreens } from '../../useNavigation';
+//components
+import Header from '../../components/Header'
 
-interface Category {
-    nombre: string,
-    get: Function
+type CategoriesScreenNavigationProps = StackNavigationProp<StackParamList, AppScreens.Categories>;
+
+interface CategoriesScreenProps {
+    navigation: CategoriesScreenNavigationProps;
 }
 
-export const Categories: React.FC<Category> = ({ nombre, get }) => {
-
+const Categories: React.FC<CategoriesScreenProps> = (props) => {
+    const { navigation } = props;
 
     const [category, setCategory] = useState('')
     const dispatch = useDispatch();
 
-    const { navigate } = useNavigation();
+    useEffect(() => {
 
-
-   useEffect(()=>{
-
-   })
+    })
 
     return (
-        <View>
-            <View style={styles.navigation}>
-                <Text style={styles.title}> Category</Text>
+        <View style={styles.navigation}>
+            <View >
+                <Header title="Category" Navigation={() => navigation.navigate(AppScreens.Home)} />
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Agregar Categoria' onTextChange={setCategory}/>
+
+            </View>
+            <View style={styles.footerCategory}>
+                <Icon5 style={styles.iconAdd} onPress={() => navigation.navigate(AppScreens.NewCategory)} name={'plus'} size={30} color="#2C1FE8" />
             </View>
         </View>
     )
@@ -41,14 +46,33 @@ export const Categories: React.FC<Category> = ({ nombre, get }) => {
 
 const styles = StyleSheet.create({
     navigation: {
+        flex: 1,
         backgroundColor: '#2C1FE8',
-        height: 170,
     },
     title: {
         fontSize: 30,
         color: '#FFF',
         textAlign: 'center',
-        marginTop: 40
+        marginBottom: 20
     },
-    body:{}
+    body: {
+        flex: 9,
+        backgroundColor: 'white'
+    },
+    iconBack: {
+        margin: 15
+    },
+    footerCategory: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: 'center',
+        backgroundColor: "#FFFF",
+        padding: 30,
+
+    },
+    iconAdd: {
+        marginRight: 15
+    }
 })
+export default Categories;
