@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
 
     return (
         <View style={styles.footer}>
-            <Icon style={styles.icon} name={'usd'} size={35} color="blue" />
+            <Icon style={styles.icon} name={'usd'} size={35} color="blue"   onPress={() => navigation.navigate(AppScreens.Exchanges)}/>
             <Icon5 name={'user'} size={35} color="blue" />
             <View style={styles.categories} >
                 <Icon name={'bars'} size={30} color="blue" onPress={() => navigation.navigate(AppScreens.Categories)} />
