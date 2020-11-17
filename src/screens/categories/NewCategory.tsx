@@ -6,41 +6,41 @@ import {
 } from 'react-native';
 import { TextField } from '../../components/TextField';
 import { Button } from '../../components/Button';
+import Header from '../../components/Header';
+//redux
 import { useDispatch } from 'react-redux';
-import { startAddCategory } from '../../redux'
-import { Category } from './Categories';
+import { startAddCategory } from '../../redux';
+//navigation
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList, AppScreens } from '../../useNavigation';
 
-interface newCategorie {
-    category: string,
-    save: Function
+type NewCategoryScreenNavigationProps = StackNavigationProp<StackParamList, AppScreens.NewCategory>;
+
+interface NewCategoryScreenProps {
+    navigation: NewCategoryScreenNavigationProps;
 }
 
 
-export const NewCategory: React.FC<newCategorie> = () => {
+const NewCategory: React.FC<NewCategoryScreenProps> = (props) => {
 
+    const { navigation } = props;
     const dispatch = useDispatch();
 
-
-    const [CategoryState, setCategory] = useState({ category: '' })
+    const [CategoryState, setCategory] = useState('')
 
     console.log(CategoryState)
-    const onTapSaveCategory = (CategoryState: Object) => {
+    const onTapSaveCategory = (CategoryState: String) => {
         dispatch(startAddCategory(CategoryState))
     };
 
-    const handleChange = (ev: any) => {
-        setCategory({
-            category: ev.value
-        })
-    }
 
     return (
         <View>
             <View style={styles.navigation}>
-                <Text style={styles.title}>New Category</Text>
+                <Header title="New Category" Navigation={navigation.goBack} />
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Agregar Categoria' onTextChange={handleChange} />
+                <TextField placeholder='Agregar Categoria' onTextChange={setCategory} />
             </View>
             <Button title='Agregar' onTap={() => onTapSaveCategory(CategoryState)}></Button>
         </View>
@@ -58,5 +58,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 40
     },
-    body: {}
+    body: {},
+    iconBack: {
+        margin: 15
+    }
 })
+export default NewCategory;

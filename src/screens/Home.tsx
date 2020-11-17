@@ -1,31 +1,29 @@
 import React from 'react';
+//components
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import Icon5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from '../components/Button';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+//navigation
+import { StackNavigationProp } from '@react-navigation/stack';
+import { StackParamList, AppScreens } from '../useNavigation';
 
-import { useNavigation } from '../utils';
+type HomeScreenNavigationProps = StackNavigationProp<StackParamList, AppScreens.Home>;
 
-export const Home = () => {
-  const { navigate } = useNavigation();
+interface HomeScreenProps {
+  navigation: HomeScreenNavigationProps;
+}
 
+const Home: React.FC<HomeScreenProps> = (props) => {
+  const { navigation } = props;
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.navigation}>
-        <Text>Home Screen</Text>
-      </View>
+      <Header title="Welcome" />
       <View style={styles.body}>
-        <Button title="Logout" onTap={() => navigate('login')} />
+        <Button title="Logout" onTap={() => navigation.navigate(AppScreens.Login)} />
       </View>
-      <View style={styles.footer}>
-        <Icon style={styles.icon} name={'usd'} size={35} color="blue" />
-        <Icon5 name={'user'} size={35} color="blue" />
-        <View style={styles.categories} >
-          <Icon name={'bars'} size={30} color="blue" onPress={() => navigate('Categories')}/>
-          <Text>categories</Text>
-        </View>
-      </View>
+      <Footer />
     </SafeAreaView>
   );
 };
@@ -33,7 +31,6 @@ export const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   navigation: {
     flex: 2,
@@ -51,19 +48,9 @@ const styles = StyleSheet.create({
     height: 400,
     backgroundColor: 'white'
   },
-  footer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: 'center',
-    backgroundColor: "#9F3EDF",
-    paddingBottom: 0
-  },
-  icon: {
-    justifyContent: 'center'
-  },
-  categories:{
-    display:"flex",
-    alignItems:"center"
-  }
+
+
 });
+
+
+export default Home;
