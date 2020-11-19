@@ -1,22 +1,24 @@
 import { categoryAction, categoryState } from '../actions/categoryActions'
 
 
-type Category= {
+type Category = {
   category: categoryState;
   message: String,
-  id: null,
-  categories: null
+  id: String,
+  categories: categoryState[],
+  loading: Boolean
 };
 
 const initialState = {
   category: {} as categoryState,
   message: '',
-  id: null,
-  categories: null
+  id: '',
+  categories: [],
+  loading: false
 };
 
 
-const CategoryReducer = (state: Category = initialState, action: categoryAction) => {
+const CategoryReducer = (state: Category = initialState, action: categoryAction): Category => {
   switch (action.type) {
     case "ADD_CATEGORY":
       return {
@@ -29,17 +31,17 @@ const CategoryReducer = (state: Category = initialState, action: categoryAction)
         loading: false,
         message: action.payload
       };
-    case "EDIT_CATEGORY":
-      return {
-        ...state,
-        loading: false,
-        category: action.payload.category,
-        message: action.payload.message
-      };
+    // case "EDIT_CATEGORY":
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     category: action.payload.category,
+    //     message: action.payload.message
+    //   };
     case "GET_CATEGORIES":
       return {
         ...state,
-        loading: true,
+        loading: false,
         categories: action.payload
       };
     case "ERROR_CATEGORIES":

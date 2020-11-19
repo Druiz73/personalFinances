@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
-import { BASE_URL } from '../../utils';
+import { BASE_URL, Paths } from '../../utils';
 import { ON_LOGIN, ON_ERROR } from '../types/auth'
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '..'
 
 export interface UserModel {
-  userName: string;
-  token: string;
+  token: String;
+  message: String;
 }
 
 export interface LoginAction {
@@ -25,16 +25,15 @@ export type UserAction = LoginAction | ErrorAction;
 // we need to dispatch action
 export const onLogin = (email: string, password: string): ThunkAction<void, RootState, null, UserAction> => {
   return async function (dispatch: Dispatch<LoginAction>) {
-    const response = await axios.post(`${BASE_URL}/auth/local`, {
-      "identifier": email,
+    const response = await axios.post(`${BASE_URL}${Paths.LOGIN}`, {
+      "user": email,
       "password": password,
     }).then(user => {
       dispatch({
         type: ON_LOGIN,
-        payload: { token: user.data.jwt, userName: user.data.user.username }
+        payload: { token: user.data.token, message: user.data.message }
       });
-    }
-    ).catch(Error => {
+    }).catch(Error => {
       dispatch({
         type: ON_LOGIN,
         payload: Error,

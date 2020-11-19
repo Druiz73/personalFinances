@@ -28,7 +28,7 @@ const NewCategory: React.FC<NewCategoryScreenProps> = (props) => {
 
     const [CategoryState, setCategory] = useState('')
 
-    console.log(CategoryState)
+   
     const onTapSaveCategory = (CategoryState: String) => {
         dispatch(startAddCategory(CategoryState))
     };

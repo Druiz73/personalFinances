@@ -17,10 +17,10 @@ const Footer: React.FC = () => {
 
     return (
         <View style={styles.footer}>
-            <Icon style={styles.icon} name={'usd'} size={35} color="blue"   onPress={() => navigation.navigate(AppScreens.Exchanges)}/>
-            <Icon5 name={'user'} size={35} color="blue" />
+            <Icon style={styles.icon} name={'usd'} size={35} color="white"   onPress={() => navigation.navigate(AppScreens.Exchanges)}/>
+            <Icon5 name={'user'} size={35} color="white" />
             <View style={styles.categories} >
-                <Icon name={'bars'} size={30} color="blue" onPress={() => navigation.navigate(AppScreens.Categories)} />
+                <Icon name={'bars'} size={30} color="white" onPress={() => navigation.navigate(AppScreens.Categories)} />
                 <Text>categories</Text>
             </View>
         </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: 'center',
-        backgroundColor: "#9F3EDF",
+        backgroundColor: "#2C1FE8",
         paddingBottom: 0
     },
     icon: {

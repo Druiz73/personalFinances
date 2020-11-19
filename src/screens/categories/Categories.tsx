@@ -1,78 +1,98 @@
 import React, { useState, useEffect } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
+    SafeAreaView,
+    Text,
+    FlatList
 } from 'react-native';
-import Icon5 from 'react-native-vector-icons/FontAwesome5';
+
 //redux
 import { useSelector, useDispatch } from 'react-redux';
+import { ApplicationState, categoryState, startGetCategory } from '../../redux';
 //navigation
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamList, AppScreens } from '../../useNavigation';
 //components
 import Header from '../../components/Header'
+import ItemList from '../../components/ItemList';
+import IconAdd from '../../components/IconAdd';
+
 
 type CategoriesScreenNavigationProps = StackNavigationProp<StackParamList, AppScreens.Categories>;
 
 interface CategoriesScreenProps {
     navigation: CategoriesScreenNavigationProps;
+    categories: [];
+    categorie: Object;
+
 }
 
 const Categories: React.FC<CategoriesScreenProps> = (props) => {
     const { navigation } = props;
 
-    const [category, setCategory] = useState('')
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    const { categories } = useSelector(
+        (state: ApplicationState) => state.categoryReducer
+    );
 
-    })
+    useEffect(() => {
+        if (categories.length == 0) {
+            dispatch(startGetCategory());
+        }
+    }, [categories])
+
+
+    const renderItem = () => {
+
+        return (
+            <FlatList
+                data={categories}
+                renderItem={({ item }) => (
+                    <ItemList
+                        title={item.name}
+                    />
+                )}
+                keyExtractor={categories => (categories.id).toString()}
+            />
+        )
+    };
+
 
     return (
-        <View style={styles.navigation}>
+        <View >
             <View >
-                <Header title="Category" Navigation={() => navigation.navigate(AppScreens.Home)} />
-            </View>
-            <View style={styles.body}>
+                <View >
+                    <Header title="Category" Navigation={() => navigation.navigate(AppScreens.Home)} />
+                </View>
+                <SafeAreaView >
+                    {
+                        categories.length > 0 ?
+                            <View >
+                                {
+                                    renderItem()
+                                }
+                            </View>
+                            :
+                            <Text >no existen categorias</Text>
+                    }
+                </SafeAreaView>
 
             </View>
-            <View style={styles.footerCategory}>
-                <Icon5 style={styles.iconAdd} onPress={() => navigation.navigate(AppScreens.NewCategory)} name={'plus'} size={30} color="#2C1FE8" />
+            <View style={styles.iconBack}>
+                <IconAdd size={30} name="plus" color="blue" linkTo={() => navigation.navigate(AppScreens.NewCategory)} />
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    navigation: {
-        flex: 1,
-        backgroundColor: '#2C1FE8',
-    },
-    title: {
-        fontSize: 30,
-        color: '#FFF',
-        textAlign: 'center',
-        marginBottom: 20
-    },
-    body: {
-        flex: 9,
-        backgroundColor: 'white'
-    },
     iconBack: {
-        margin: 15
-    },
-    footerCategory: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: 'center',
-        backgroundColor: "#FFFF",
+        flexDirection:"column-reverse",
         padding: 30,
-
-    },
-    iconAdd: {
-        marginRight: 15
     }
+
 })
 export default Categories;

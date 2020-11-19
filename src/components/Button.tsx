@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({ title, onTap }) => {
 const styles = StyleSheet.create({
   btn: {
     height: 60,
-    backgroundColor: '#6F1CDB',
+    backgroundColor: '#2C1FE8',
     marginLeft: 10,
     marginRight: 10,
     justifyContent: 'center',
