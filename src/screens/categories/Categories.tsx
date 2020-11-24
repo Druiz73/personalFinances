@@ -10,7 +10,7 @@ import {
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
-import { ApplicationState, startEditCategory, startGetCategory, startRemoveCategory } from '../../redux';
+import { ApplicationState, getCategoryById, startGetCategory, startRemoveCategory } from '../../redux';
 //navigation
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamList, AppScreens } from '../../useNavigation';
@@ -49,8 +49,9 @@ const Categories: React.FC<CategoriesScreenProps> = (props) => {
         dispatch(startRemoveCategory(id));
     }
 
-    const editCategory = (id: string) => {
-        dispatch(startEditCategory(id));
+    const editCategory = (id: string, name: string) => {
+        dispatch(getCategoryById(id, name));
+        navigation.navigate(AppScreens.EditCategory)
     }
 
     //muestra las categorias
@@ -62,7 +63,7 @@ const Categories: React.FC<CategoriesScreenProps> = (props) => {
                     <ItemList
                         title={item.name}
                         onRemove={() => deleteCategory(item.id)}
-                        onEdit={() => editCategory(item.id)}
+                        onEdit={() => editCategory(item.id, item.name)}
                     />
                 )}
                 keyExtractor={categories => (categories.id).toString()}

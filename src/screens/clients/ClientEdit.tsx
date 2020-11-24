@@ -50,9 +50,9 @@ const ClientEdit: React.FC<EditClientScreenProps> = (props) => {
         <View>
             <Header title="Edit Client" />
             <View style={styles.body}>
-                <TextField placeholder={client.name} onTextChange={setname} />
-                <TextField placeholder={client.email} onTextChange={setEmail} />
-                <TextField placeholder={client.date_of_birth} onTextChange={setDateofbirth} />
+                <TextField textContentType="name" placeholder={client.name} onTextChange={setname} />
+                <TextField textContentType="emailAddress" placeholder={client.email} onTextChange={setEmail} />
+                <TextField textContentType="oneTimeCode" placeholder={(client.date_of_birth).toString()} onTextChange={setDateofbirth} />
             </View>
             <Button title='Guardar' onTap={onTapSaveEdit}></Button>
         </View>

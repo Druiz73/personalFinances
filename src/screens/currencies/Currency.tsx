@@ -9,7 +9,7 @@ import {
 import IconAdd from '../../components/IconAdd';
 //redux
 import { useSelector, useDispatch } from 'react-redux';
-import { ApplicationState, startGetCurrency, startRemoveCurrency } from '../../redux';
+import { ApplicationState, getCurrencyById, startGetCurrency, startRemoveCurrency } from '../../redux';
 //navigation
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamList, AppScreens } from '../../useNavigation';
@@ -46,6 +46,11 @@ const Exchanges: React.FC<CurrencyScreenProps> = (props) => {
         dispatch(startRemoveCurrency(id));
     }
 
+    const editCurrency = (id: string, name: string, abreviature: string) => {
+        dispatch(getCurrencyById(id, name, abreviature));
+        navigation.navigate(AppScreens.EditCurrency)
+    }
+
     //muestra las categorias
     const renderItem = () => {
         return (
@@ -53,6 +58,7 @@ const Exchanges: React.FC<CurrencyScreenProps> = (props) => {
                 data={currencies}
                 renderItem={({ item }) => (
                     <ItemList
+                        onEdit={() => editCurrency(item.id, item.name, item.abreviature)}
                         title={item.name}
                         onRemove={() => deleteCurrency(item.id)}
                         subtitle={item.abreviature}

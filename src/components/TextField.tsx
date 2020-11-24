@@ -12,12 +12,14 @@ interface TextFieldProps {
   placeholder: string;
   isSecure?: boolean;
   onTextChange: Function;
+  textContentType: any;
 }
 
 export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   isSecure = false,
   onTextChange,
+  textContentType
 
 }) => {
   const [isPassword, setIsPassword] = useState(false);
@@ -34,6 +36,7 @@ export const TextField: React.FC<TextFieldProps> = ({
         secureTextEntry={isPassword}
         onChangeText={(text) => onTextChange(text)}
         style={styles.textField}
+        textContentType={textContentType}
       />
       {isSecure && (
         <TouchableOpacity

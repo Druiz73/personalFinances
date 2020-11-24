@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 //components
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
+//home
 import Home from './screens/Home';
 import Login from './screens/Login'
+//categories
 import Categories from './screens/categories/Categories';
 import NewCategory from './screens/categories/NewCategory';
+import EditCategory from './screens/categories/EditCategory';
+//currencies
 import Currency from './screens/currencies/Currency';
 import NewCurrency from './screens/currencies/NewCurrency';
+import EditCurrency from './screens/currencies/CurrencyEdit'
+//clients
 import Client from './screens/clients/Client';
 import NewClient from './screens/clients/NewClient';
 import ClientEdit from './screens/clients/ClientEdit';
-import Icon5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
 //local storage library
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //navigation tabs
@@ -25,10 +30,12 @@ export enum AppScreens {
   Login = 'Login',
   Categories = 'Categories',
   NewCategory = 'NewCategory',
+  EditCategory = 'EditCategory',
   Currency = 'Currency',
   NewCurrency = 'NewCurrency',
   Clients = 'Clients',
-  ClientEdit = 'ClientEdit'
+  ClientEdit = 'ClientEdit',
+  EditCurrency = 'EditCurrency'
 }
 
 export type StackParamList = {
@@ -36,10 +43,12 @@ export type StackParamList = {
   Home: undefined;
   Categories: undefined;
   NewCategory: undefined;
+  EditCategory: undefined;
   Currency: undefined;
   NewCurrency: undefined;
   Clients: undefined;
   ClientEdit: undefined;
+  EditCurrency: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -125,8 +134,9 @@ const MyStack: React.FunctionComponent = (props) => {
             <Tab.Screen name="Categories">
               {() => (
                 <HomeStack.Navigator screenOptions={{ headerShown: false }} >
-                  <HomeStack.Screen name="Category" component={Categories} />
-                  <HomeStack.Screen name="New Category" component={NewCategory} />
+                  <HomeStack.Screen name="Categories" component={Categories} />
+                  <HomeStack.Screen name="NewCategory" component={NewCategory} />
+                  <HomeStack.Screen name="EditCategory" component={EditCategory} />
                 </HomeStack.Navigator>
               )}
             </Tab.Screen>
@@ -135,6 +145,7 @@ const MyStack: React.FunctionComponent = (props) => {
                 <HomeStack.Navigator screenOptions={{ headerShown: false }}>
                   <HomeStack.Screen name="Currency" component={Currency} />
                   <HomeStack.Screen name="NewCurrency" component={NewCurrency} />
+                  <HomeStack.Screen name="EditCurrency" component={EditCurrency} />
                 </HomeStack.Navigator>
               )}
             </Tab.Screen>

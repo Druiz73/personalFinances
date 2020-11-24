@@ -4,7 +4,7 @@ import {
     StyleSheet
 } from 'react-native';
 import { TextField } from '../../components/TextField';
-import { Button } from '../../components/Button';
+import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Toast from 'react-native-simple-toast';
 //redux
@@ -56,11 +56,11 @@ const NewExchange: React.FC<NewExchangeScreenProps> = (props) => {
     return (
         <View>
             <View>
-                <Header title="New Exchange"/>
+                <Header title="New Exchange" />
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Agregar Categoria' onTextChange={setExchange} />
-                <TextField placeholder='Abreviatura' onTextChange={setAbreviature} />
+                <TextField textContentType="name" placeholder='Agregar Categoria' onTextChange={setExchange} />
+                <TextField textContentType="name" placeholder='Abreviatura' onTextChange={setAbreviature} />
             </View>
             <Button title='Agregar' onTap={() => onTapSaveExchange(ExchangeState, Abreviature)}></Button>
         </View>

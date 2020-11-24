@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 import { TextField } from '../../components/TextField';
-import { Button } from '../../components/Button';
+import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Toast from 'react-native-simple-toast';
 //redux
@@ -58,7 +58,7 @@ const NewCategory: React.FC<NewCategoryScreenProps> = (props) => {
                 <Header title="New Category" />
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Agregar Categoria' onTextChange={setCategory} />
+                <TextField textContentType="name" placeholder='Agregar Categoria' onTextChange={setCategory} />
             </View>
             <Button title='Agregar' onTap={() => onTapSaveCategory(CategoryState)}></Button>
         </View>

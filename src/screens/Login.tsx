@@ -54,8 +54,9 @@ const Login: React.FunctionComponent<LoginScreenProps> = (props) => {
       </View>
       <View style={styles.body}>
         <View style={styles.loginView}>
-          <TextField placeholder="Email Id" onTextChange={setEmail} />
+          <TextField textContentType="emailAddress" placeholder="Email Id" onTextChange={setEmail} />
           <TextField
+            textContentType="password"
             placeholder="Password"
             onTextChange={setPassword}
             isSecure={true}

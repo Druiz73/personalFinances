@@ -6,7 +6,8 @@ import {
     ADD_CURRENCY,
     REMOVE_CURRENCY,
     EDIT_CURRENCY,
-    GET_CURRENCIES
+    GET_CURRENCIES,
+    GETBYID_CURRENCY
 } from '../types/currency';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '..';
@@ -46,8 +47,13 @@ export interface removeCurrency {
 
 export interface editCurrency {
     type: typeof EDIT_CURRENCY;
-    payload: any,
-    loading: boolean
+    currency: {
+        name: string,
+        id: string,
+        abreviature: string
+    },
+    loading: boolean,
+    message: string
 }
 
 export interface getCurrencies {
@@ -57,7 +63,18 @@ export interface getCurrencies {
     message: string
 }
 
-export type currencyAction = addCurrency | errorCurrencies | getCurrencies | editCurrency | removeCurrency
+export interface getCurrencyById {
+    type: typeof GETBYID_CURRENCY;
+    currency: {
+        name: string,
+        id: string,
+        abreviature: string
+    }
+    loading: boolean,
+    message: string
+}
+
+export type currencyAction = addCurrency | errorCurrencies | getCurrencies | editCurrency | removeCurrency | getCurrencyById
 
 
 export const startAddCurrency = (name: string, abreviature: string): ThunkAction<void, RootState, null, currencyAction> => {
@@ -105,14 +122,26 @@ export const startRemoveCurrency = (id: string): ThunkAction<void, RootState, nu
     };
 };
 
-export const startEditCurrency = async (id: string) => {
-    return async (dispatch: Dispatch<editCurrency>) => {
-        const response = await axios.post<currencyAction>(`${BASE_URL}${Paths.UPDATE_CURRENCY}/${id}`)
-        dispatch({
-            type: 'EDIT_CURRENCY',
-            payload: response.data,
-            loading: true
-        })
+export const startEditCurrency = (id: string, name: string, abreviature: string): ThunkAction<void, RootState, null, currencyAction> => {
+    return async function (dispatch: Dispatch<currencyAction>) {
+        const response = await axios.put<editCurrency>(`${BASE_URL}${Paths.UPDATE_CURRENCY}`)
+            .then(currency => {
+                dispatch({
+                    type: 'EDIT_CURRENCY',
+                    loading: true,
+                    currency: { id: id, name: name, abreviature: abreviature },
+                    message: currency.data.message
+                })
+                startGetCurrency()
+            })
+            .catch(error => {
+                dispatch({
+                    type: 'ERROR_CURRENCIES',
+                    payload: error,
+                    loading: false
+                })
+            })
+
     };
 };
 
@@ -135,3 +164,19 @@ export const startGetCurrency = (): ThunkAction<void, RootState, null, currencyA
 
     };
 };
+
+
+export const getCurrencyById = (id: string, name: string, abreviature: string): ThunkAction<void, RootState, null, currencyAction> => {
+    return async function (dispatch: Dispatch<getCurrencyById>) {
+        dispatch({
+            type: 'GETBYID_CURRENCY',
+            currency: {
+                name: name,
+                id: id,
+                abreviature: abreviature
+            },
+            loading: true,
+            message: ''
+        })
+    }
+}

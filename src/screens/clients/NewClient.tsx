@@ -60,9 +60,9 @@ const NewExchange: React.FC<NewExchangeScreenProps> = (props) => {
                 <Header title="New Client" />
             </View>
             <View style={styles.body}>
-                <TextField placeholder='Nombre' onTextChange={setName} />
-                <TextField placeholder='Email' onTextChange={setEmail} />
-                <TextField placeholder='Birthday' onTextChange={setBirthday} />
+                <TextField textContentType="name" placeholder='Nombre' onTextChange={setName} />
+                <TextField textContentType="emailAddress" placeholder='Email' onTextChange={setEmail} />
+                <TextField textContentType="oneTimeCode" placeholder='Birthday' onTextChange={setBirthday} />
             </View>
             <Button title='Agregar' onTap={() => onTapSaveExchange(Name, Email, Birthday)} />
         </View>

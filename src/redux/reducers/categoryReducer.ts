@@ -1,7 +1,7 @@
 import { categoryAction, categoryState } from '../actions/categoryActions'
 
 type Category = {
-  category: categoryState;
+  category: Object;
   message: string,
   id: string,
   categories: categoriesState[],
@@ -10,7 +10,7 @@ type Category = {
 };
 
 const initialState = {
-  category: {} as categoryState,
+  category: { name: '', id: '' } as categoriesState,
   message: '',
   id: '',
   categories: [],
@@ -43,13 +43,16 @@ const CategoryReducer = (state: Category = initialState, action: categoryAction)
         message: action.payload.message,
         categories: filteredCategories
       };
-    // case "EDIT_CURRENCY":
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     currency: action.payload.currency,
-    //     message: action.payload.message
-    //   };
+    case "EDIT_CATEGORY":
+      state.categories.map((value, index) => {
+        if (action.category.id === value.id) {
+          state.categories.splice(index, 1, action.category)
+        }
+      })
+      return {
+        ...state,
+        loading: true,
+      };
     case "GET_CATEGORIES":
       return {
         ...state,
@@ -61,6 +64,14 @@ const CategoryReducer = (state: Category = initialState, action: categoryAction)
       return {
         ...state,
         message: action.payload
+      };
+    case "GETBYID_CATEGORY":
+      return {
+        ...state,
+        category: {
+          ...action.category
+        },
+        loading: false
       };
     default:
       return state;

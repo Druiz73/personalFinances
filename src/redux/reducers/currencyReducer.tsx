@@ -1,7 +1,7 @@
-import { currencyState, currencyAction } from '../actions/currencyAction'
+import {  currencyAction } from '../actions/currencyAction'
 
 type Currency = {
-    currency: currencyState;
+    currency: Object;
     message: string,
     id: string,
     abreviature: string,
@@ -11,7 +11,7 @@ type Currency = {
 };
 
 const initialState = {
-    currency: {} as currencyState,
+    currency: { name: '', id: '', abreviature: '' } as currenciesState,
     message: '',
     id: '',
     currencies: [],
@@ -46,13 +46,16 @@ const CurrencyReducer = (state: Currency = initialState, action: currencyAction)
                 message: action.payload.message,
                 currencies: filteredCurrencies
             };
-        // case "EDIT_Currency":
-        //   return {
-        //     ...state,
-        //     loading: false,
-        //     Currency: action.payload.Currency,
-        //     message: action.payload.message
-        //   };
+        case "EDIT_CURRENCY":
+            state.currencies.map((value, index) => {
+                if (action.currency.id === value.id) {
+                    state.currencies.splice(index, 1, action.currency)
+                }
+            })
+            return {
+                ...state,
+                loading: true,
+            };
         case "GET_CURRENCIES":
             return {
                 ...state,
@@ -64,6 +67,14 @@ const CurrencyReducer = (state: Currency = initialState, action: currencyAction)
             return {
                 ...state,
                 message: action.payload
+            };
+        case "GETBYID_CURRENCY":
+            return {
+                ...state,
+                currency: {
+                    ...action.currency
+                },
+                loading: false
             };
         default:
             return state;

@@ -6,7 +6,8 @@ import {
     ADD_CATEGORY,
     REMOVE_CATEGORY,
     EDIT_CATEGORY,
-    GET_CATEGORIES
+    GET_CATEGORIES,
+    GETBYID_CATEGORY
 } from '../types/category';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '..';
@@ -44,7 +45,10 @@ export interface removeCategory {
 
 export interface editCategory {
     type: typeof EDIT_CATEGORY;
-    payload: categoryState,
+    category: {
+        name: string,
+        id: string,
+    },
     loading: boolean
 }
 
@@ -55,7 +59,17 @@ export interface getCategories {
     message: string
 }
 
-export type categoryAction = addCategory | errorCategory | getCategories | editCategory | removeCategory
+export interface getCategoryById {
+    type: typeof GETBYID_CATEGORY;
+    category: {
+        name: string,
+        id: string,
+    }
+    loading: boolean,
+    message: string
+}
+
+export type categoryAction = addCategory | errorCategory | getCategories | editCategory | removeCategory | getCategoryById
 
 
 export const startAddCategory = (category: string): ThunkAction<void, RootState, null, categoryAction> => {
@@ -102,16 +116,28 @@ export const startRemoveCategory = (id: string): ThunkAction<void, RootState, nu
     };
 };
 
-export const startEditCategory = async (id: string) => {
-    return async (dispatch: Dispatch<editCategory>) => {
-        const response = await axios.post<categoryState>(`${BASE_URL}${Paths.UPDATE_CATEGORY}/${id}`)
-        dispatch({
-            type: 'EDIT_CATEGORY',
-            payload: response.data,
-            loading: true
-        })
+export const startEditCategory = (id: string, name: string): ThunkAction<void, RootState, null, categoryAction> => {
+    return async function (dispatch: Dispatch<categoryAction>) {
+        const response = await axios.put<editCategory>(`${BASE_URL}${Paths.UPDATE_CATEGORY}`)
+            .then(data => {
+                dispatch({
+                    type: 'EDIT_CATEGORY',
+                    loading: true,
+                    category: { id: id, name: name }
+                })
+                startGetCategory()
+            })
+            .catch(error => {
+                dispatch({
+                    type: 'ERROR_CATEGORIES',
+                    payload: error,
+                    loading: false
+                })
+            })
+
     };
 };
+
 
 export const startGetCategory = (): ThunkAction<void, RootState, null, categoryAction> => {
     return async function (dispatch: Dispatch<categoryAction>) {
@@ -120,7 +146,7 @@ export const startGetCategory = (): ThunkAction<void, RootState, null, categoryA
                 type: 'GET_CATEGORIES',
                 payload: categories.data.categories,
                 loading: true,
-                message: ''
+                message: categories.data.message
             })
         }).catch(error => {
             dispatch({
@@ -132,3 +158,17 @@ export const startGetCategory = (): ThunkAction<void, RootState, null, categoryA
 
     };
 };
+
+export const getCategoryById = (id: string, name: string): ThunkAction<void, RootState, null, categoryAction> => {
+    return async function (dispatch: Dispatch<getCategoryById>) {
+        dispatch({
+            type: 'GETBYID_CATEGORY',
+            category: {
+                name: name,
+                id: id,
+            },
+            loading: true,
+            message: ''
+        })
+    }
+}

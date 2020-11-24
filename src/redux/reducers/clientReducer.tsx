@@ -55,14 +55,15 @@ const ClientReducer = (state: client = initialState, action: ClientAction): clie
                 clients: filteredClients
             };
         case "EDIT_CLIENT":
-
-            for (let clave in state.clients) {
-                console.log(clave)
-            }
+            state.clients.map((value, index) => {
+                if (action.client.id === value.id) {
+                    state.clients.splice(index, 1, action.client)
+                }
+            })
             return {
                 ...state,
                 loading: true,
-                clients: [ action.client],
+                // clients: clientUpdated,
                 message: action.payload.message
             };
         case "GET_CLIENTS":
