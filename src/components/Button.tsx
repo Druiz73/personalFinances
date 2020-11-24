@@ -6,7 +6,7 @@ interface ButtonProps {
   onTap: Function;
 }
 
-export const Button: React.FC<ButtonProps> = ({ title, onTap }) => {
+const Button: React.FC<ButtonProps> = ({ title, onTap }) => {
   return (
     <TouchableOpacity style={styles.btn} onPress={() => onTap()}>
       <Text style={styles.btnText}>{title}</Text>
@@ -31,3 +31,4 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
 });
+export default Button;

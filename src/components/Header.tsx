@@ -23,13 +23,19 @@ const Header: React.FC<HeaderProps> = ({ title, Navigation }) => {
 const styles = StyleSheet.create({
     navigation: {
         backgroundColor: '#2C1FE8',
-        height: 170,
+        top:0,
+        justifyContent:"center",
+        flexDirection:"row",
+        paddingVertical:10
     },
     title: {
-        fontSize: 30,
+        fontSize: 35,
+        marginHorizontal:50,
+        alignSelf:"stretch",
         color: '#FFF',
         textAlign: 'center',
-        marginTop: 40
+        marginTop: 5,
+        textAlignVertical:"center",
     },
     body: {},
     iconBack: {

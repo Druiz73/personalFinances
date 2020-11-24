@@ -4,17 +4,18 @@ import {
     StyleSheet,
     SafeAreaView,
     Text,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
-import { ApplicationState, categoryState, startGetCategory } from '../../redux';
+import { ApplicationState, startEditCategory, startGetCategory, startRemoveCategory } from '../../redux';
 //navigation
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamList, AppScreens } from '../../useNavigation';
 //components
-import Header from '../../components/Header'
+import Header from '../../components/Header';
 import ItemList from '../../components/ItemList';
 import IconAdd from '../../components/IconAdd';
 
@@ -24,8 +25,8 @@ type CategoriesScreenNavigationProps = StackNavigationProp<StackParamList, AppSc
 interface CategoriesScreenProps {
     navigation: CategoriesScreenNavigationProps;
     categories: [];
-    categorie: Object;
-
+    category: Object;
+    delete: Function
 }
 
 const Categories: React.FC<CategoriesScreenProps> = (props) => {
@@ -43,15 +44,25 @@ const Categories: React.FC<CategoriesScreenProps> = (props) => {
         }
     }, [categories])
 
+    //funcion para eliminar categoria
+    const deleteCategory = (id: string) => {
+        dispatch(startRemoveCategory(id));
+    }
 
+    const editCategory = (id: string) => {
+        dispatch(startEditCategory(id));
+    }
+
+    //muestra las categorias
     const renderItem = () => {
-
         return (
             <FlatList
                 data={categories}
                 renderItem={({ item }) => (
                     <ItemList
                         title={item.name}
+                        onRemove={() => deleteCategory(item.id)}
+                        onEdit={() => editCategory(item.id)}
                     />
                 )}
                 keyExtractor={categories => (categories.id).toString()}
@@ -61,37 +72,44 @@ const Categories: React.FC<CategoriesScreenProps> = (props) => {
 
 
     return (
-        <View >
-            <View >
-                <View >
-                    <Header title="Category" Navigation={() => navigation.navigate(AppScreens.Home)} />
-                </View>
-                <SafeAreaView >
-                    {
-                        categories.length > 0 ?
-                            <View >
-                                {
-                                    renderItem()
-                                }
-                            </View>
-                            :
-                            <Text >no existen categorias</Text>
-                    }
-                </SafeAreaView>
-
+        <SafeAreaView style={styles.container}>
+            <View>
+                <Header title="Category" />
             </View>
-            <View style={styles.iconBack}>
+            <View style={styles.body}>
+                {
+                    categories.length > 0 ?
+                        <View >
+                            {
+                                renderItem()
+                            }
+                        </View>
+                        :
+                        <Text >no existen categorias</Text>
+                }
+            </View>
+            <TouchableOpacity style={styles.iconAdd}>
                 <IconAdd size={30} name="plus" color="blue" linkTo={() => navigation.navigate(AppScreens.NewCategory)} />
-            </View>
-        </View>
+            </TouchableOpacity>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    iconBack: {
+    container: {
         flex: 1,
-        flexDirection:"column-reverse",
-        padding: 30,
+        backgroundColor: 'white',
+    },
+    body: {
+        flex: 9,
+        backgroundColor: 'white'
+    },
+    iconAdd: {
+        position: 'absolute',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        right: 30,
+        bottom: 60,
     }
 
 })

@@ -21,9 +21,8 @@ const Home: React.FC<HomeScreenProps> = (props) => {
     <SafeAreaView style={styles.container}>
       <Header title="Welcome" />
       <View style={styles.body}>
-        <Button title="Logout" onTap={() => navigation.navigate(AppScreens.Login)} />
+       
       </View>
-      <Footer />
     </SafeAreaView>
   );
 };

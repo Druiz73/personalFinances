@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 //components
 import { TextField } from '../components/TextField';
-import { Button } from '../components/Button';
+import Button from '../components/Button';
 import CheckBox from '@react-native-community/checkbox';
 //redux
 import { useSelector, useDispatch } from 'react-redux';

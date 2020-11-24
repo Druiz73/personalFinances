@@ -4,6 +4,15 @@ import { BASE_URL, Paths } from '../../utils';
 import { ON_LOGIN, ON_ERROR } from '../types/auth'
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '..'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storeData = async (value: string) => {
+  try {
+    await AsyncStorage.setItem('@storage_Key', value)
+  } catch (e) {
+    console.log("error creando storage", e)
+  }
+}
 
 export interface UserModel {
   token: String;
@@ -33,6 +42,7 @@ export const onLogin = (email: string, password: string): ThunkAction<void, Root
         type: ON_LOGIN,
         payload: { token: user.data.token, message: user.data.message }
       });
+      storeData(user.data.token)
     }).catch(Error => {
       dispatch({
         type: ON_LOGIN,

@@ -7,9 +7,10 @@ import {
 import { TextField } from '../../components/TextField';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
+import Toast from 'react-native-simple-toast';
 //redux
-import { useDispatch } from 'react-redux';
-import { startAddCategory } from '../../redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { startAddCategory, ApplicationState, startGetCategory } from '../../redux';
 //navigation
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StackParamList, AppScreens } from '../../useNavigation';
@@ -18,26 +19,43 @@ type NewCategoryScreenNavigationProps = StackNavigationProp<StackParamList, AppS
 
 interface NewCategoryScreenProps {
     navigation: NewCategoryScreenNavigationProps;
+    message: String;
 }
-
 
 const NewCategory: React.FC<NewCategoryScreenProps> = (props) => {
 
     const { navigation } = props;
     const dispatch = useDispatch();
 
+    const { message } = useSelector(
+        (state: ApplicationState) => state.categoryReducer
+    );
+
     const [CategoryState, setCategory] = useState('')
 
-   
-    const onTapSaveCategory = (CategoryState: String) => {
-        dispatch(startAddCategory(CategoryState))
-    };
+    useEffect(() => {
+        if (message) {
+            Toast.show(message, Toast.SHORT)
+        }
+    }, [message])
 
+
+    const onTapSaveCategory = (CategoryState: string) => {
+        if (CategoryState == '') {
+            Toast.show("Datos invalidos", Toast.SHORT, [Toast.CENTER])
+        } else {
+            dispatch(startAddCategory(CategoryState));
+            setTimeout(() => {
+                navigation.navigate(AppScreens.Categories)
+            }, 200);
+            setCategory('');
+        }
+    };
 
     return (
         <View>
-            <View style={styles.navigation}>
-                <Header title="New Category" Navigation={navigation.goBack} />
+            <View>
+                <Header title="New Category" />
             </View>
             <View style={styles.body}>
                 <TextField placeholder='Agregar Categoria' onTextChange={setCategory} />
@@ -48,10 +66,6 @@ const NewCategory: React.FC<NewCategoryScreenProps> = (props) => {
 }
 
 const styles = StyleSheet.create({
-    navigation: {
-        backgroundColor: '#2C1FE8',
-        height: 170,
-    },
     title: {
         fontSize: 30,
         color: '#FFF',

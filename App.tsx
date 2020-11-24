@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import MyStack from './src/useNavigation'
 import { Provider } from 'react-redux';
@@ -6,10 +7,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
+    <NavigationContainer >
     <Provider store={store}>
-      <NavigationContainer >
         <MyStack />
-      </NavigationContainer>
     </Provider>
+    </NavigationContainer>
   );
 }

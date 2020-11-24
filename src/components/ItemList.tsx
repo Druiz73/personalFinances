@@ -1,21 +1,29 @@
 import React from "react";
-import { StyleProp, Text, TouchableOpacity, ViewStyle, StyleSheet, View } from "react-native";
-import { Button } from "./Button";
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import { Text, StyleSheet, View } from "react-native";
+
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 interface propsFlatList {
-    title: String,
-
+    title: String;
+    onRemove: Function;
+    onEdit: Function,
+    subtitle?: String,
+    optionThirdItem?: number
 }
-export const ItemList: React.FC<propsFlatList> = ({ title }) => {
+export const ItemList: React.FC<propsFlatList> = ({ title, onRemove, onEdit, subtitle, optionThirdItem }) => {
     return (
-        <TouchableOpacity style={styles.containerCategory}  >
-            <Text style={styles.title} >{title}</Text>
-            <View style={styles.containerIcons}>
-                <Icon size={25} style={styles.icon} name="edit" />
-                <Icon size={25} style={styles.icon} name="trash-alt" />
+        <View style={styles.containerCategory}  >
+            <View style={styles.containerTitle}>
+                <Text style={styles.title} >{title}</Text>
+                {subtitle ? <Text style={styles.subtitle} >{subtitle}</Text> : null}
+                {optionThirdItem ? <Text style={styles.subtitle} >{optionThirdItem}</Text> : null}
             </View>
-        </TouchableOpacity>
+            <View style={styles.containerIcons}>
+                <Icon size={25} onPress={() => onEdit()} style={styles.icon} name="edit" />
+                <Icon onPress={() => onRemove()} size={25} style={styles.icon} name="trash-alt" />
+            </View>
+        </View >
     )
 };
 
@@ -24,7 +32,7 @@ const styles = StyleSheet.create({
         color: "black",
         marginTop: 25,
         display: "flex",
-        fontSize: 30,
+        fontSize: 27,
         paddingBottom: 25,
         justifyContent: 'space-between',
     },
@@ -45,8 +53,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
     },
-    icon:{
-        marginRight:10
+    icon: {
+        marginRight: 10
+    },
+    subtitle: {
+        color: "black",
+        display: "flex",
+        fontSize: 15,
+        marginBottom: 5
+    },
+    containerTitle: {
+        marginVertical: 5
     }
 })
 

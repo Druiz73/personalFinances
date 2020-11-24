@@ -16,7 +16,6 @@ const UserReducer = (state: UserState = initialState, action: UserAction) => {
       return {
         ...state,
         user: action.payload
-
       };
     case 'ON_ERROR':
       return {

@@ -1,3 +1,4 @@
+import { types } from '@babel/core';
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -17,6 +18,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   isSecure = false,
   onTextChange,
+
 }) => {
   const [isPassword, setIsPassword] = useState(false);
 
@@ -62,9 +64,9 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingLeft: 20,
     paddingRight: 10,
-    borderStyle:'solid',
+    borderStyle: 'solid',
     borderColor: '#2C1FE8',
-    borderWidth:2
+    borderWidth: 2
   },
   textField: {
     flex: 1,
