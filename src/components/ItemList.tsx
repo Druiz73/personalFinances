@@ -1,8 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
-
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 
 interface propsFlatList {
     title: String;
@@ -11,13 +9,14 @@ interface propsFlatList {
     subtitle?: String,
     optionThirdItem?: number
 }
+
 export const ItemList: React.FC<propsFlatList> = ({ title, onRemove, onEdit, subtitle, optionThirdItem }) => {
     return (
         <View style={styles.containerCategory}  >
             <View style={styles.containerTitle}>
                 <Text style={styles.title} >{title}</Text>
-                {subtitle ? <Text style={styles.subtitle} >{subtitle}</Text> : null}
-                {optionThirdItem ? <Text style={styles.subtitle} >{optionThirdItem}</Text> : null}
+                {subtitle && <Text style={styles.subtitle} >{subtitle}</Text>}
+                {optionThirdItem && <Text style={styles.subtitle} >{optionThirdItem}</Text>}
             </View>
             <View style={styles.containerIcons}>
                 <Icon size={25} onPress={() => onEdit()} style={styles.icon} name="edit" />
@@ -54,7 +53,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     icon: {
-        marginRight: 10
+        marginRight: 10,
+        color:"blue"
     },
     subtitle: {
         color: "black",

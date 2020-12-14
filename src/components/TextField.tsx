@@ -59,21 +59,21 @@ export const TextField: React.FC<TextFieldProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    height: 80,
+    height: 70,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    minHeight:70,
     margin: 10,
     paddingLeft: 20,
     paddingRight: 10,
     borderStyle: 'solid',
     borderColor: '#2C1FE8',
-    borderWidth: 2
+    borderWidth: 2,
+    minWidth:220,
+    textAlignVertical:"center"
   },
   textField: {
     flex: 1,
     height: 50,
     fontSize: 20,
-  },
+  }
 });

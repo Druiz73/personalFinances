@@ -19,6 +19,10 @@ import EditCurrency from './screens/currencies/CurrencyEdit'
 import Client from './screens/clients/Client';
 import NewClient from './screens/clients/NewClient';
 import ClientEdit from './screens/clients/ClientEdit';
+//Movements
+import Movements from './screens/movements/Movements';
+import NewMovement from './screens/movements/NewMovement';
+// import EditMovements from './screens/movements/EditMovements';
 //local storage library
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //navigation tabs
@@ -28,6 +32,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 export enum AppScreens {
   Home = 'Home',
   Login = 'Login',
+  Movements = 'Movements',
+  NewMovement = 'NewMovement',
   Categories = 'Categories',
   NewCategory = 'NewCategory',
   EditCategory = 'EditCategory',
@@ -41,6 +47,8 @@ export enum AppScreens {
 export type StackParamList = {
   Login: undefined;
   Home: undefined;
+  Movements: undefined;
+  NewMovement: undefined;
   Categories: undefined;
   NewCategory: undefined;
   EditCategory: undefined;
@@ -75,7 +83,7 @@ const MyStack: React.FunctionComponent = (props) => {
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [token])
 
 
   if (token) {
@@ -94,6 +102,9 @@ const MyStack: React.FunctionComponent = (props) => {
                 }
                 else if (route.name === 'Categories') {
                   iconName = 'bars';
+                }
+                else if (route.name === 'Movements') {
+                  iconName = 'files-o';
                 }
                 else if (route.name === 'Currency') {
                   iconName = 'usd';
@@ -122,13 +133,21 @@ const MyStack: React.FunctionComponent = (props) => {
                 </SettingsStack.Navigator>
               )}
             </Tab.Screen>
-            <Tab.Screen name="Clients">
+            <Tab.Screen name="Currency">
               {() => (
-                <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
-                  <SettingsStack.Screen name="Clients" component={Client} />
-                  <SettingsStack.Screen name="New Client" component={NewClient} />
-                  <SettingsStack.Screen name="ClientEdit" component={ClientEdit} />
-                </SettingsStack.Navigator>
+                <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+                  <HomeStack.Screen name="Currency" component={Currency} />
+                  <HomeStack.Screen name="NewCurrency" component={NewCurrency} />
+                  <HomeStack.Screen name="EditCurrency" component={EditCurrency} />
+                </HomeStack.Navigator>
+              )}
+            </Tab.Screen>
+            <Tab.Screen name="Movements">
+              {() => (
+                <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+                  <HomeStack.Screen name="Movements" component={Movements} />
+                  <HomeStack.Screen name="NewMovement" component={NewMovement} />
+                </HomeStack.Navigator>
               )}
             </Tab.Screen>
             <Tab.Screen name="Categories">
@@ -140,13 +159,13 @@ const MyStack: React.FunctionComponent = (props) => {
                 </HomeStack.Navigator>
               )}
             </Tab.Screen>
-            <Tab.Screen name="Currency">
+            <Tab.Screen name="Clients">
               {() => (
-                <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-                  <HomeStack.Screen name="Currency" component={Currency} />
-                  <HomeStack.Screen name="NewCurrency" component={NewCurrency} />
-                  <HomeStack.Screen name="EditCurrency" component={EditCurrency} />
-                </HomeStack.Navigator>
+                <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
+                  <SettingsStack.Screen name="Clients" component={Client} />
+                  <SettingsStack.Screen name="New Client" component={NewClient} />
+                  <SettingsStack.Screen name="ClientEdit" component={ClientEdit} />
+                </SettingsStack.Navigator>
               )}
             </Tab.Screen>
           </Tab.Navigator>
